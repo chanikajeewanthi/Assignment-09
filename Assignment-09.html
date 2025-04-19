@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Knight Rider Light</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: white;
+            color: #333;
+            height: 100vh;
+            justify-content: center;
+            font-family: sans-serif;
+        }
+
+        .light-container {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 30px;
+        }
+
+        .light {
+            width: 50px;
+            height: 20px;
+            border: 1px solid black;
+            background-color: #eee;
+            box-shadow: 0 0 2px #aaa;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .active {
+            transform: scale(1.2);
+        }
+
+        /* Unique colors */
+        .light.color0.active { background-color: red; box-shadow: 0 0 10px red; }
+        .light.color1.active { background-color: blue; box-shadow: 0 0 10px blue; }
+        .light.color2.active { background-color: green; box-shadow: 0 0 10px green; }
+        .light.color3.active { background-color: orange; box-shadow: 0 0 10px orange; }
+        .light.color4.active { background-color: purple; box-shadow: 0 0 10px purple; }
+
+        button {
+            padding: 10px 20px;
+            margin: 0 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            background: #333;
+            color: white;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+<body>
+
+<div class="light-container">
+    <div class="light color0" id="light0"></div>
+    <div class="light color1" id="light1"></div>
+    <div class="light color2" id="light2"></div>
+    <div class="light color3" id="light3"></div>
+    <div class="light color4" id="light4"></div>
+</div>
+
+<div>
+    <button onclick="startKnightRider()">Start</button>
+    <button onclick="stopKnightRider()">Stop</button>
+</div>
+
+<script>
+    let current = 0;
+    let direction = 1;
+    let intervalId = null;
+
+    function lightUp(index) {
+        for (let i = 0; i < 5; i++) {
+            document.getElementById(`light${i}`).classList.remove("active");
+        }
+        document.getElementById(`light${index}`).classList.add("active");
+    }
+
+    function animate() {
+        lightUp(current);
+        current += direction;
+        if (current === 4 || current === 0) {
+            direction *= -1;
+        }
+    }
+
+    function startKnightRider() {
+        if (!intervalId) {
+            animate();
+            intervalId = setInterval(animate, 150);
+        }
+    }
+
+    function stopKnightRider() {
+        clearInterval(intervalId);
+        intervalId = null;
+    }
+</script>
+
+</body>
+</html>
